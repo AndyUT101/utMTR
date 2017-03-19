@@ -14,13 +14,10 @@ class TwitterController extends Controller
      * @param  UserRepository  $users
      * @return void
      */
+    private $twitter_connection;
     public function __construct()
     {
-
-        $twitter_connection = TwitterData::connectAPI();
-
-        return $twitter_connection -> ->get("statuses/home_timeline", ["count" => 25, "exclude_replies" => true]);
-
+        $this -> twitter_connection = TwitterData::connectAPI();
     }
 
     /**
@@ -30,7 +27,11 @@ class TwitterController extends Controller
      */
     public function index()
     {
-        //
+        
+        return response()->json($this -> twitter_connection -> get("statuses/user_timeline", [
+            "screen_name" => "mtrupdate",
+            "count" => 200,
+            ]));
     }
 
     /**
